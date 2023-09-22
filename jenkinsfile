@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Pull the code') {
+            steps {
+                echo 'Pulling Code from git hub..'
+            }
+        }
+        stage('Notication on slack') {
+            steps {
+                echo 'Teting..'
+            }
+        }
+        stage('Sonar Analysis ') {
+            steps {
+                echo 'Deploying....'
+            }
+        }
+        stage('Building APP')
+            steps {
+                echo 'Deploying....'
+            }
+        }
+    }
+}
