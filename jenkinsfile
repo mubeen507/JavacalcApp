@@ -1,25 +1,40 @@
 pipeline {
     agent any
 
+    environment {
+
+    DOCKERHUB_CREDENTIALS = credentials('dockeruser')
+     registry = "mubeen507/javacalc"
+        registryCredential = 'dockerhub'
+    }
+
     stages {
-        stage('Pull the code') {
+        
+
+        stage('Building the docker image') {
             steps {
-                echo 'Pulling Code from git hub..'
+                sh 'docker build -t mubeen507/javacalc .'
             }
         }
-        stage('Notication on slack') {
+        stage('Logging into dockerhub account') {
             steps {
-                echo 'Teting..'
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
-        stage('Sonar Analysis ') {
+        stage('pushing the docker image into dockerhub') {
             steps {
-                echo 'Deploying....'
+                  sh 'docker push mubeen507/javacalc'
             }
         }
-        stage('Building APP'){
+        stage('Remove old docker images') {
+             steps {
+                 sh 'docker rmi -f mubeen507/javacalc'
+            }
+        }
+         stage('Running the docker container') {
             steps {
-                echo 'Deploying....'
+                  sh 'docker container rm --force fe'
+                  sh 'docker run -dt -p 80:8080 --name fe mubeen507/javacalc'
             }
         }
     }
