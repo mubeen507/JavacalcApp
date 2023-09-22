@@ -17,10 +17,10 @@ pipeline {
                 echo 'Deploying....'
             }
         }
-        stage('Building APP')
+        stage('Building APP'){
             steps {
                 echo 'Deploying....'
             }
         }
     }
-
+}
