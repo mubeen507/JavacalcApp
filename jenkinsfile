@@ -21,6 +21,15 @@ pipeline {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
+        stage('pipeline status') {
+            steps {
+                script {
+                    slackSend channel: 'jenkins',
+                            color: '#1e1ec9',
+                            message: 'lms-Frontend Pipeline has been Started',
+                            tokenCredentialId: '6UFax3Tt65Oeq06YgUT9seDM'
+                }
+            }
         stage('pushing the docker image into dockerhub') {
             steps {
                   sh 'docker push mubeen507/javacalc'
